@@ -5,6 +5,7 @@ import {
   Button,
 } from 'react-native';
 
+import TextDiff from './TextDiff';
 function App() {
   // usestate for setting a javascript
   // object for storing and using data
@@ -17,7 +18,8 @@ function App() {
   const [file, setFile] = useState()
   const [fileContents, setFileContents] = useState()
 
-
+  const originalFileContent = 'This is the original file content'
+  const improvedFileContent = 'This is the improved file content'
   function handleChange(event) {
     setFile(event.target.files[0])
   }
@@ -62,19 +64,22 @@ function App() {
 
               <form>
                 <h1>React File Upload</h1>
-                <input type="file" onChange={handleChange}/>
-                <button type="submit">Upload</button>
+                
               </form>
 
+              <input type="file" onChange={handleChange}/>
               <Button 
-              title="Read file"
+              title="Upload"
               color="#841584"
               onPress={readFile}
               />
 
               <p>File contents:</p>
               <p> {fileContents}</p>
-
+              <TextDiff
+                originalFile={originalFileContent}
+                improvedFile={improvedFileContent}
+              />
 
           </header>
       </div>
