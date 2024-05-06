@@ -15,7 +15,7 @@ def to_markdown(text):
 
 def improve_resume(resume_text):
     # Specify the prompt for the GPT-3 model
-    prompt = f"Improve the following resume keep the format:\n{resume_text}\n\nImproved Resume:"
+    prompt = f"Improve the following resume keep the format and same information:\n{resume_text}\n\nImproved Resume:"
     
     # Request the model to generate improved text
     response = model.generate_content(prompt)
@@ -25,27 +25,5 @@ def improve_resume(resume_text):
     return response.text
 
 # Example usage
-resume_text = """
-John Doe
-123 Main Street
-Anytown, USA
-johndoe@email.com
-555-123-4567
-
-Objective:
-Seeking a software engineering position to utilize my skills in Python, Java, and web development.
-
-Experience:
-Software Engineer Intern
-XYZ Company
-May 2020 - August 2020
-- Developed and maintained web applications using Django framework
-- Collaborated with team members to deliver high-quality software products
-
-Education:
-Bachelor of Science in Computer Science
-ABC University
-Graduated May 2021
-"""
 
 # improved_resume = improve_resume(resume_text)

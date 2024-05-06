@@ -1,28 +1,17 @@
 import logo from './logo.svg';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, PureComponent } from "react";
 import './App.css';
-import {
-  Button,
-} from 'react-native';
 
-import TextDiff from './TextDiff';
+import ReactDiffViewer from 'react-diff-viewer';
+
 function App() {
-  // usestate for setting a javascript
-  // object for storing and using data
-  const [data, setdata] = useState({
-      name: "",
-      age: 0,
-      date: "",
-      programming: "",
-  });
   const [resume, setResume] = useState({
     improved: ""
   })
   const [file, setFile] = useState()
   const [fileContents, setFileContents] = useState()
+  const [showDisplay, setShowDisplay]= useState(false)
 
-  const originalFileContent = 'This is the original file content'
-  const improvedFileContent = 'This is the improved file content'
   function handleChange(event) {
     setFile(event.target.files[0])
   }
@@ -31,16 +20,24 @@ function App() {
   function readFile() {
     const reader = new FileReader()
     console.log(file)
-    reader.onload = function(event) {
-      // The file's text will be printed here
-      setFileContents(event.target.result)
-    };
-    reader.readAsText(file);
+    reader.onload = async function(event) {
+      await setFileContents(event.target.result)
+    }
+    reader.readAsText(file); 
+    
+    
   }
+
+  useEffect(() => {
+    improveResume(fileContents);
+    setResume({improved: "loading..."});
+  }, [fileContents]);
+
 
 
   const improveResume = async (originalResume) => {
     try {
+      console.log(originalResume)
       const response = await fetch('/improve', {
         method: 'POST',
         headers: {
@@ -52,6 +49,11 @@ function App() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      console.log('data recieved')
+      if (originalResume != undefined) {
+        setShowDisplay(true)
+      }
+      setResume({improved: data.improved_resume})
       return data.improved_resume;
     } catch (error) {
       console.error('There was a problem with your fetch operation:', error);
@@ -78,31 +80,21 @@ function App() {
   return (
       <div className="App">
           <header className="App-header">
-              <h1>React and flask</h1>
-              {/* Calling a data from setdata for showing */}
-              <p>{data.name}</p>
-              <p>{data.age}</p>
-              <p>{data.date}</p>
-              <p>{data.programming}</p>
 
-              <form>
-                <h1>React File Upload</h1>
-                
-              </form>
+              <h1> React AI Resume Helper </h1>
+              <h3> Please upload your resume</h3>
 
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
               <input type="file" onChange={handleChange}/>
-              <Button 
-              title="Upload"
-              color="#841584"
-              onPress={readFile}
-              />
+              <button onClick={readFile}>Upload</button>
 
-              <p>File contents:</p>
-              <p> {fileContents}</p>
-              <TextDiff
-                originalFile={originalFileContent}
-                improvedFile={improvedFileContent}
-              />
+            </div>
+            <br></br>
+              
+              
+            {showDisplay && <ReactDiffViewer oldValue={fileContents} newValue={resume.improved} splitView={true} />}
+              
+
 
           </header>
       </div>
