@@ -15,6 +15,9 @@ function App() {
       date: "",
       programming: "",
   });
+  const [resume, setResume] = useState({
+    improved: ""
+  })
   const [file, setFile] = useState()
   const [fileContents, setFileContents] = useState()
 
@@ -23,6 +26,7 @@ function App() {
   function handleChange(event) {
     setFile(event.target.files[0])
   }
+  
 
   function readFile() {
     const reader = new FileReader()
@@ -35,6 +39,25 @@ function App() {
   }
 
 
+  const improveResume = async (originalResume) => {
+    try {
+      const response = await fetch('/improve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ original_resume: originalResume }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data.improved_resume;
+    } catch (error) {
+      console.error('There was a problem with your fetch operation:', error);
+      return null;
+    }
+  };
   // Using useEffect for single rendering
   useEffect(() => {
       // Using fetch to fetch the api from 
@@ -46,7 +69,7 @@ function App() {
                   name: data.Name,
                   age: data.Age,
                   date: data.Date,
-                  programming: data.programming,
+                  programming: "hello",
               });
           })
       );
