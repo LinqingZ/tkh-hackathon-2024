@@ -137,9 +137,9 @@ if submit_button:
                     st.write(f"<div style='text-align:left; font-family: sans-serif; font-size: 15px;'>{interview_tips}</div>", unsafe_allow_html=True)
 
             else:
-                st.markdown('<h3 style="color: yellow; text-align: left;">Unable to get expected output.</h3>', unsafe_allow_html=True)
+                st.markdown('<h3 style="color: red; text-align: left;">Unable to get expected output.</h3>', unsafe_allow_html=True)
         else:
-            st.markdown('<h3 style="color: yellow; text-align: left;">Unable to get expected output.</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 style="color: red; text-align: left;">Unable to get expected output.</h3>', unsafe_allow_html=True)
     else:
         st.markdown('<h6 style="color: black;text-align: center;">Please upload your Resume!</h6>', unsafe_allow_html=True)
 
