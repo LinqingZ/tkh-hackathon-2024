@@ -24,13 +24,13 @@ def get_time():
         "programming":"python"
         }
  
-@app.route('/display_string', methods=['POST'])
+@app.route('/improve', methods=['POST'])
 def display_string():
     data = request.json
-    resume = data.get('string', '')
+    resume = data.get('original_resume', '')
     improved_resume = improve_resume(resume)
     return {
-        "improved_resume":i
+        "improved_resume":improved_resume
     }
 
 # Running app

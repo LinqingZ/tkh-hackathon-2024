@@ -6,7 +6,7 @@ import google.generativeai as genai
 from IPython.display import display
 from IPython.display import Markdown
 
-genai.configure(api_key="")
+genai.configure(api_key="AIzaSyAYp0biB5gY3V5z8OaN7buJzysvNpHNm5M")
 model = genai.GenerativeModel('gemini-pro')
 
 def to_markdown(text):
@@ -48,4 +48,4 @@ ABC University
 Graduated May 2021
 """
 
-improved_resume = improve_resume(resume_text)
+# improved_resume = improve_resume(resume_text)
